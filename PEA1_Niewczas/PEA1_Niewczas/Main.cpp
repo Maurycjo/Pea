@@ -2,11 +2,12 @@
 #include "Matrix.h"
 #include <Windows.h>
 #include <ctime>
-#include "generateRandom.h"
+#include "RandomGenerator.h"
 #include "menu.h"
 #include "BruteForce.h"
 #include "BranchNBound.h"
 #include "reading.h"
+#include "SimulatedAnnealing.h"
 
 using namespace std;
 
@@ -17,6 +18,7 @@ int main()
 
 	BranchNBound bnb;
 	BruteForce brute;
+	SimulatedAnnealing sa;
 	Matrix matrix;
 	int menu;
 	bool ifRead;
@@ -92,17 +94,20 @@ int main()
 					//bnb.deinitAll(matrix.getVertex());
 					
 					break;
-
 				case 3:
+					sa.findPath(matrix.array, matrix.getVertex());
+					sa.displaySolution();
+					break;
+				case 4:
 					system("cls");
 					algorytmList();
 					break;
 					
 					break;
-				case 4:
+				case 5:
 					matrix.display();
 					break;
-				case 5:
+				case 6:
 					system("cls");
 					algorytmList();
 					break;
@@ -113,7 +118,7 @@ int main()
 					break;
 				}
 
-			} while (menu != 3);
+			} while (menu != 4);
 		
 	}
 	return 0;

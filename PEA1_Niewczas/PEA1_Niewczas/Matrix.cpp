@@ -178,7 +178,7 @@ void Matrix::directedGraph(int quantity)
 		for (int j = 0; j < vertex; j++)
 		{
 			if (i != j)
-				array[i][j] = generateRandomInt(minWeight, maxWeight);
+				array[i][j] = g.generateRandomInt(minWeight, maxWeight);
 			else
 				array[i][j] = 9999;
 		}

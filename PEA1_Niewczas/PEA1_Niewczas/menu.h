@@ -16,9 +16,10 @@ void algorytmList()
 {
 	cout << "(1) BruteForce" << endl;
 	cout << "(2) B&B" << endl;
-	cout << "(3) Zmiana grafu" << endl;
-	cout << "(4) Wyswietl" << endl;
-	cout << "(5) wyczysc ekran" << endl;
+	cout << "(3) SimulatedAnnealing" << endl;
+	cout << "(4) Zmiana grafu" << endl;
+	cout << "(5) Wyswietl" << endl;
+	cout << "(6) wyczysc ekran" << endl;
 	cout << "(0) Wyjscie" << endl;
 
 }

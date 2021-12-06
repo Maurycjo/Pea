@@ -5,7 +5,8 @@
 #include <stdexcept>
 #include <iomanip>
 #include <string>
-#include "generateRandom.h"
+#include "RandomGenerator.h"
+
 class Matrix
 {
 	const int minWeight = 1;
@@ -16,6 +17,7 @@ private:
 	int vertex = 0;		//liczba wierzcholkow
 	int startVertex = 0;//wierzcholek poczatkowy
 public:
+	RandomGenerator g;
 	int** array = NULL;			//deklaracja tablicy wskaznikow
 	void inputConsole();	//wczytywanie wag miedzy wierzcholkami
 	void inputFile(bool &ifRead);		//wczytanie wag z pliku

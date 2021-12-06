@@ -1,14 +1,17 @@
 
 #include "SimulatedAnnealing.h"
 
-
-int SimulatedAnnealing::calculateCost(int *perm, Matrix mat)
+const double EULER= 2.71828182845904523536;
+int SimulatedAnnealing::calculateCost(int *perm, int** mat)
 {
 	int cost = 0;
 	for (int i = 0; i < size -1; i++)
 	{
-		cost += mat.array[perm[i]][perm[i + 1]];
+
+		//std::cout << mat.array[perm[i]][perm[i + 1]] << std::endl;
+		cost += mat[perm[i]][perm[i + 1]];
 	}
+	cost += mat[perm[size - 1]][perm[0]];
 	return cost;
 }
 float SimulatedAnnealing::calculateTemp(int startCost, float alpha)
@@ -18,11 +21,11 @@ float SimulatedAnnealing::calculateTemp(int startCost, float alpha)
 void SimulatedAnnealing::neigbourPermutation(int* src, int* des)
 {
 	int temp;
-	int ind1 = generateRandomInt(0, size- 1);
-	int ind2 = generateRandomInt(0, size - 1);
+	int ind1 = g.generateRandomInt(1, size- 1);
+	int ind2 = g.generateRandomInt(1, size - 1);
 	do
 	{
-		ind2 = generateRandomInt(0, size - 1);
+		ind2 = g.generateRandomInt(1, size - 1);
 	} while (ind1 == ind2);
 
 	copy(src, des);
@@ -30,7 +33,7 @@ void SimulatedAnnealing::neigbourPermutation(int* src, int* des)
 	des[ind2] = src[ind1];
 
 }
-float SimulatedAnnealing::reduceTempGeo(float temp, float alpha)
+double SimulatedAnnealing::reduceTempGeo(float temp, float alpha)
 {
 	return alpha * temp;
 }
@@ -44,18 +47,32 @@ void SimulatedAnnealing::copy(int* src, int* des)
 	}
 }
 
-void  SimulatedAnnealing::setSize(Matrix matrix)
+void SimulatedAnnealing::setSize(int val)
 {
-	size = matrix.getVertex();
+	size = val;
+}
+void SimulatedAnnealing::setCost(int val)
+{
+	cost = val;
+}
+void SimulatedAnnealing::displaySolution()
+{
+	std::cout << "path: ";
+	for (int i = 0; i < size; i++)
+	{
+		std::cout << path[i] << " ";
+	}
+	std::cout << std::endl << "koszt: " << cost << std::endl;
 }
 
-void SimulatedAnnealing::findPath(Matrix matrix)
+
+void SimulatedAnnealing::findPath(int **matrix, int ver)
 {
-	
+	setSize(ver);						//ilosc wierzcholkow
 	float temp;							//temperatura
 	int minCost;						//koszt minimalny
 	int costDiff, currentCost, neigCost;//koszty sciezek
-	int x;								//liczba losowa z zakresu (0,1)
+	double x;							//liczba losowa z zakresu (0,1)
 
 	//inicjacja tablic
 	path = new int[size];
@@ -63,48 +80,71 @@ void SimulatedAnnealing::findPath(Matrix matrix)
 	int* neighbour = new int[size];
 
 	//permutacja poczatkowa {0, 1, 2, ..., n}
-	for (int i = 0; i < matrix.getVertex(); i++)
+	for (int i = 0; i < size; i++)
 	{
 		path[i] = i;
-		minPath[i] = i;
+		//minPath[i] = i;
 	}
+	
+
 	minCost=calculateCost(path, matrix);
 	
 
-	temp=calculateTemp(minCost, ALPHA); //ustawienie poczatkowej temperatury
+	//temp=calculateTemp(minCost, ALPHA); 
+	temp = T0; //ustawienie poczatkowej temperatury
 
-	for (int i = 0; i < L; i++)
+	int n = 0; int m = 0;
+	while(temp>0.1)
 	{
+		for (int j = 0; j < L; j++)
+		{
 		
-		neigbourPermutation(path, neighbour);
-		currentCost = calculateCost(path, matrix);
-		neigCost = calculateCost(neighbour, matrix);
-		costDiff = currentCost - neigCost;
+			neigbourPermutation(path, neighbour);
+			currentCost = calculateCost(path, matrix);
+			neigCost = calculateCost(neighbour, matrix);
+			costDiff = currentCost - neigCost;
 
-		//ustawianie minimalnego kosztu na wypadek wyjscia z minimum lokalnego
-		if (neigCost < minCost)
-		{
-			minCost = neigCost;
-			copy(neighbour, minPath);
-		}
+			//ustawianie minimalnego kosztu na wypadek wyjscia z minimum lokalnego
+			if (neigCost < minCost)
+			{
+				minCost = neigCost;
+				copy(neighbour, minPath);
+			}
 
-		if (costDiff < 0)
-		{
-			currentCost = neigCost;
-			copy(neighbour, path);
-		}
-		else
-		{
+			if (costDiff < 0)
+			{
+				currentCost = neigCost;
+				copy(neighbour, path);
+			}
+			else
+			{
+				x = g.generateRandomFloat(0, 1);
+				if (x < pow(EULER,((float)-costDiff/(float)temp)))
+				{
+					currentCost = neigCost;
+					copy(neighbour, path);
+				}
+				
+			}
 			
 		}
-
-
-
-
+		//std::cout << "nowaEpoka: " << i << "\n";
+		temp = reduceTempGeo(temp, ALPHA);
+		//std::cout << temp << "\n";
+		
 
 	}
+	copy(minPath, path);
+	cost = minCost;
+
+	delete[] neighbour;
+	delete[] minPath;
+}
 
 
+SimulatedAnnealing::~SimulatedAnnealing()
+{
 
+	delete[]path;
 
 }
