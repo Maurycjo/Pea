@@ -1,8 +1,8 @@
 ﻿
 #include "Matrix.h"
 #include <Windows.h>
-#include "generateGraph.h"
 #include <ctime>
+#include "generateRandom.h"
 #include "menu.h"
 #include "BruteForce.h"
 #include "BranchNBound.h"

@@ -150,7 +150,7 @@
     <ClInclude Include="BinaryHeap.h" />
     <ClInclude Include="BranchNBound.h" />
     <ClInclude Include="BruteForce.h" />
-    <ClInclude Include="generateGraph.h" />
+    <ClInclude Include="generateRandom.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="reading.h" />

@@ -5,9 +5,11 @@
 #include <stdexcept>
 #include <iomanip>
 #include <string>
-
+#include "generateRandom.h"
 class Matrix
 {
+	const int minWeight = 1;
+	const int maxWeight = 100;
 
 private:
 	int edges = 0;		//liczba krawedzi
@@ -26,8 +28,6 @@ public:
 	int getVertex();
 	void setEdges(int val);
 	void directedGraph(int quantity);
-
-	void bruteForce();
 
 };
 

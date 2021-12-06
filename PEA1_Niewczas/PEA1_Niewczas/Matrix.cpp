@@ -162,3 +162,28 @@ void Matrix::display()
 	}
 
 }
+
+void Matrix::directedGraph(int quantity)
+{
+	if (array != NULL)
+		deinit();
+	init(quantity);
+	clean();
+	edges = vertex * (vertex - 1);		//maksymalna ilosc krawedzi w grafie skierowanym
+
+	for (int i = 0; i < vertex; i++)
+	{
+
+		//wartosci losowe w tablicy
+		for (int j = 0; j < vertex; j++)
+		{
+			if (i != j)
+				array[i][j] = generateRandomInt(minWeight, maxWeight);
+			else
+				array[i][j] = 9999;
+		}
+	}
+
+
+
+}
