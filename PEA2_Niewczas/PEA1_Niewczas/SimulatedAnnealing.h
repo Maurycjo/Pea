@@ -8,9 +8,9 @@ class SimulatedAnnealing
 {
 private:
 	const int L = 1000;
-	const int T0 = 10000;
-	const float ALPHA = 0.90; // <0,85; 0,98>
-	int size, cost;
+	const int T0 = 1000;
+	const float ALPHA = 0.95; // <0,85; 0,98>
+	int size, cost = 0;
 	int* path;
 
 	void copy(int* src, int* des);					 //kopiowanie z tablicy do drugiej
@@ -21,10 +21,11 @@ private:
 	void neigbourPermutation(int* src, int* des);	 //szukanie sasiedniej permutacji
 	double reduceTempGeo(float temp, float alpha);	 //geometryczna redukcja temperatury
 	RandomGenerator g;								//generator liczb losowych
-
+	void shuffle(int* arr);							//losowe wymieszanie wartosci w tablicy
 public:												
+	int getCost();								
 	void findPath(int **matrix, int ver);			 //metoda g³owna algorytmu
-	void displaySolution();
-	~SimulatedAnnealing();
+	void displaySolution();							//wyswietlanie wyniku
+	~SimulatedAnnealing();							//zwalnianie pamieci
 	
 };

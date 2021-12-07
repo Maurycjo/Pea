@@ -5,12 +5,7 @@
 
 using namespace std;
 
-long long int read_QPC()
-{
-	LARGE_INTEGER count;
-	QueryPerformanceCounter(&count);
-	return((long long int)count.QuadPart);
-}
+
 
 void algorytmList()
 {

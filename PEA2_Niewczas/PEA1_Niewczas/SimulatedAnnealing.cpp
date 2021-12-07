@@ -9,9 +9,9 @@ int SimulatedAnnealing::calculateCost(int *perm, int** mat)
 	{
 
 		//std::cout << mat.array[perm[i]][perm[i + 1]] << std::endl;
-		cost += mat[perm[i]][perm[i + 1]];
+		cost += mat[perm[i+1]][perm[i]];
 	}
-	cost += mat[perm[size - 1]][perm[0]];
+	cost += mat[perm[0]][perm[size - 1]];
 	return cost;
 }
 float SimulatedAnnealing::calculateTemp(int startCost, float alpha)
@@ -58,10 +58,11 @@ void SimulatedAnnealing::setCost(int val)
 void SimulatedAnnealing::displaySolution()
 {
 	std::cout << "path: ";
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i <= size; i++)
 	{
 		std::cout << path[i] << " ";
 	}
+	//std::cout << std::endl;
 	std::cout << std::endl << "koszt: " << cost << std::endl;
 }
 
@@ -75,7 +76,7 @@ void SimulatedAnnealing::findPath(int **matrix, int ver)
 	double x;							//liczba losowa z zakresu (0,1)
 
 	//inicjacja tablic
-	path = new int[size];
+	path = new int[size+1];
 	int* minPath = new int[size];
 	int* neighbour = new int[size];
 
@@ -85,13 +86,17 @@ void SimulatedAnnealing::findPath(int **matrix, int ver)
 		path[i] = i;
 		//minPath[i] = i;
 	}
-	
+	path[size] = 0;						//pierwszy i ostatni element tablicy zawsze ma wartosc 0
+	//losowa permutacja
+	shuffle(path);
+
 
 	minCost=calculateCost(path, matrix);
 	
 
 	//temp=calculateTemp(minCost, ALPHA); 
 	temp = T0; //ustawienie poczatkowej temperatury
+	//std::cout <<"(3,5) "<<matrix[5][3] << std::endl;
 
 	int n = 0; int m = 0;
 	while(temp>0.1)
@@ -109,6 +114,7 @@ void SimulatedAnnealing::findPath(int **matrix, int ver)
 			{
 				minCost = neigCost;
 				copy(neighbour, minPath);
+				//std::cout << "minCost: " << minCost << "\n";
 			}
 
 			if (costDiff < 0)
@@ -127,6 +133,7 @@ void SimulatedAnnealing::findPath(int **matrix, int ver)
 				
 			}
 			
+			//displaySolution();
 		}
 		//std::cout << "nowaEpoka: " << i << "\n";
 		temp = reduceTempGeo(temp, ALPHA);
@@ -134,6 +141,8 @@ void SimulatedAnnealing::findPath(int **matrix, int ver)
 		
 
 	}
+	//displaySolution();
+	//std::cout << "currentCost: " << currentCost << " \n\n";
 	copy(minPath, path);
 	cost = minCost;
 
@@ -144,7 +153,22 @@ void SimulatedAnnealing::findPath(int **matrix, int ver)
 
 SimulatedAnnealing::~SimulatedAnnealing()
 {
-
 	delete[]path;
+}
 
+void SimulatedAnnealing::shuffle(int* arr)
+{
+	int k, temp;
+	for (int i = 1; i < size; i++)
+	{
+		temp = arr[i];
+		k = g.generateRandomInt(1, size - 1);
+		arr[i] = arr[k];
+		arr[k] = temp;
+	}
+}
+
+int SimulatedAnnealing::getCost()
+{
+	return cost;
 }

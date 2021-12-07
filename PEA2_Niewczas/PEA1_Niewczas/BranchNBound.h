@@ -7,7 +7,8 @@
 class BranchNBound
 {
 	const int infinity = 9999;
-
+	int cost;
+	int* pat;
 public:
 	int vertex;
 	int* visited[2];
@@ -20,6 +21,9 @@ public:
 	void displayNode(Node node);							//wyswietlanie calego wezla
 	void setVertex(int val);								//ustawienie wierzcholkow
 	void displayPath(Node node);							//wyswietlanie sciezki
-	
+	void copy(int* src, int *des);							//kopiowanie tablicy jednowymiarowej
+	int getCost();
+	void displayPath();
+	~BranchNBound();
 };
 

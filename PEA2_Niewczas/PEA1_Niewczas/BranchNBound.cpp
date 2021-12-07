@@ -143,7 +143,11 @@ void BranchNBound::findPath(int** array, int ver)
 
 	parentMatrix.addPath(0);
 	//displayNode(parentMatrix);
-	displayPath(parentMatrix);
+	pat = new int[vertex + 1];
+	copy(parentMatrix.path, pat);
+	pat[vertex] = 0;
+	cost = parentMatrix.cost;
+	//displayPath(parentMatrix);
 	//cout <<endl<< operMatrix.pathSize;
 
 
@@ -208,11 +212,37 @@ void BranchNBound::copy(int** source, int** destiny)
 void BranchNBound::displayPath(Node node)
 {
 	cout << "path: ";
-	for (int i = 0; i < node.pathSize; i++)
+	for (int i = 0; i < vertex+1; i++)
 	{
-		cout << node.path[i] << " ";
+		cout << pat[i] << " ";
 	}
 	cout << endl;
 	cout << "koszt: " << node.cost << endl;
 
+}
+void BranchNBound::copy(int* src, int* des)
+{
+	for (int i = 0; i < vertex; i++)
+	{
+		des[i] = src[i];
+	}
+}
+
+int BranchNBound::getCost()
+{
+	return cost;
+}
+void BranchNBound::displayPath()
+{
+	cout << "path: ";
+	for (int i = 0; i < vertex + 1; i++)
+	{
+		cout << pat[i] << " ";
+	}
+	cout << "\nkoszt: " << cost << endl;
+}
+BranchNBound::~BranchNBound()
+{
+
+	delete[]pat;
 }

@@ -1,12 +1,10 @@
 ﻿
 #include "Matrix.h"
-#include <Windows.h>
-#include <ctime>
 #include "RandomGenerator.h"
 #include "menu.h"
 #include "BruteForce.h"
 #include "BranchNBound.h"
-#include "reading.h"
+#include "Reader.h"
 #include "SimulatedAnnealing.h"
 
 using namespace std;
@@ -20,6 +18,7 @@ int main()
 	BruteForce brute;
 	SimulatedAnnealing sa;
 	Matrix matrix;
+	Reader r;
 	int menu;
 	bool ifRead;
 	//ofstream times;
@@ -50,10 +49,8 @@ int main()
 				break;
 			/*
 			case 3:
+				r.compare(bnb, sa);
 				
-				readingBF(matrix, brute);
-				readingBB(matrix, bnb);
-
 				cout << "koniec pomiarow" << endl;
 
 				return 0;
@@ -91,6 +88,7 @@ int main()
 				case 2:
 					//tu bedzie metoda wykonujaca B&B lub DP
 					bnb.findPath(matrix.array, matrix.getVertex());
+					bnb.displayPath();
 					//bnb.deinitAll(matrix.getVertex());
 					
 					break;
