@@ -2,14 +2,15 @@
 #include <math.h>
 #include "Matrix.h"
 #include "RandomGenerator.h"
+#include <fstream>
 
 
 class SimulatedAnnealing
 {
 private:
-	const int L = 1000;
-	const int T0 = 1000;
-	const float ALPHA = 0.95; // <0,85; 0,98>
+	int L;											//dlugosc epoki
+	float T0;											//temperatura poczatkowa
+	float ALPHA = 0.95; // <0,85; 0,98>
 	int size, cost = 0;
 	int* path;
 
@@ -22,9 +23,20 @@ private:
 	double reduceTempGeo(float temp, float alpha);	 //geometryczna redukcja temperatury
 	RandomGenerator g;								//generator liczb losowych
 	void shuffle(int* arr);							//losowe wymieszanie wartosci w tablicy
-public:												
+	float startTemp(float startCost, float vertex);		//ustawienie temperatury poczatkowej
+	int epoch(int vertex, int multipier);			//ustawienie dlugosci epoki
+
+public:						
+	void setStrartParametrs(int ver, int **matrix);
+	void setL(int l);
+	void setT(int t);
+	void setAlpha(float a);
+	int getL();
+	int getT0();
+	float getAlpha();
+	void displayParametrs();
 	int getCost();								
-	void findPath(int **matrix, int ver);			 //metoda g³owna algorytmu
+	void findPath(int **matrix);					 //metoda g³owna algorytmu
 	void displaySolution();							//wyswietlanie wyniku
 	~SimulatedAnnealing();							//zwalnianie pamieci
 	

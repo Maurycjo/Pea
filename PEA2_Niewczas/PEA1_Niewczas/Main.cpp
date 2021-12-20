@@ -19,7 +19,8 @@ int main()
 	SimulatedAnnealing sa;
 	Matrix matrix;
 	Reader r;
-	int menu;
+	int menu, saMenu, temp;
+	float temp2;
 	bool ifRead;
 	//ofstream times;
 
@@ -93,9 +94,45 @@ int main()
 					
 					break;
 				case 3:
-					sa.findPath(matrix.array, matrix.getVertex());
-					sa.displaySolution();
-					break;
+						
+							sa.setStrartParametrs(matrix.getVertex(), matrix.array);
+						sa.displayParametrs();
+						do
+						{
+							cout << "Wybierz: ";
+							cin >> saMenu;
+
+						switch (saMenu)
+						{
+						case 1:
+							sa.findPath(matrix.array);
+							sa.displaySolution();
+							break;
+						case 2:
+							cout << "nowa epoka: ";
+							cin >> temp;
+							sa.setL(temp);
+							sa.displayParametrs();
+							break;
+						case 3:
+							cout << "nowa temperatura: ";
+							cin >> temp;
+							sa.setT(temp);
+							sa.displayParametrs();
+							break;
+						case 4:
+							cout << "nowy wspolczynnik alpha: ";
+							cin >> temp2;
+							sa.setAlpha(temp2);
+							sa.displayParametrs();
+							break;
+						default:
+							cout << "podaj odpowiednia operacje!\n";
+							break;
+						}
+						} while (saMenu != 1);
+
+						break;
 				case 4:
 					system("cls");
 					algorytmList();

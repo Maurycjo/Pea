@@ -79,7 +79,7 @@ void Reader::reading(SimulatedAnnealing& sa)
 		{
 			matrix.directedGraph(i);
 			start = read_QPC();
-			sa.findPath(matrix.array, matrix.getVertex());
+			sa.findPath(matrix.array);
 			elapsed = read_QPC() - start;
 
 			//file << fixed << setprecision(10) << (float)elapsed / frequency << endl;
@@ -111,7 +111,7 @@ void Reader::compare(BranchNBound& bnb, SimulatedAnnealing& sa)
 
 		bnb.findPath(matrix.array, matrix.getVertex());
 		file << bnb.getCost() << endl;
-		sa.findPath(matrix.array, matrix.getVertex());
+		sa.findPath(matrix.array);
 		file2 << sa.getCost() << endl;
 		}
 	}

@@ -31,8 +31,11 @@ void SimulatedAnnealing::neigbourPermutation(int* src, int* des)
 	copy(src, des);
 	des[ind1] = src[ind2];
 	des[ind2] = src[ind1];
-
 }
+
+
+
+
 double SimulatedAnnealing::reduceTempGeo(float temp, float alpha)
 {
 	return alpha * temp;
@@ -67,28 +70,52 @@ void SimulatedAnnealing::displaySolution()
 }
 
 
-void SimulatedAnnealing::findPath(int **matrix, int ver)
+int SimulatedAnnealing::epoch(int vertex, int multipier)
+{
+	return vertex * multipier;
+}
+
+float SimulatedAnnealing::startTemp(float startCost, float vertex)
+{
+
+	return startCost * vertex;
+}
+
+
+void SimulatedAnnealing::setStrartParametrs(int ver, int **matrix)
 {
 	setSize(ver);						//ilosc wierzcholkow
+	path = new int[size + 1];
+	//permutacja poczatkowa {0, 1, 2, ..., n}
+	for (int i = 0; i < size; i++)
+	{
+		path[i] = i;
+		
+	}
+	path[size] = 0;						//pierwszy i ostatni element tablicy zawsze ma wartosc 0
+	//losowa permutacja
+	shuffle(path);
+	T0 = startTemp(calculateCost(path, matrix), ver);
+	L = epoch(ver, 20);
+}
+
+
+
+
+void SimulatedAnnealing::findPath(int **matrix)
+{
+	
 	float temp;							//temperatura
 	int minCost;						//koszt minimalny
 	int costDiff, currentCost, neigCost;//koszty sciezek
 	double x;							//liczba losowa z zakresu (0,1)
 
 	//inicjacja tablic
-	path = new int[size+1];
+	
 	int* minPath = new int[size];
 	int* neighbour = new int[size];
 
-	//permutacja poczatkowa {0, 1, 2, ..., n}
-	for (int i = 0; i < size; i++)
-	{
-		path[i] = i;
-		//minPath[i] = i;
-	}
-	path[size] = 0;						//pierwszy i ostatni element tablicy zawsze ma wartosc 0
-	//losowa permutacja
-	shuffle(path);
+	
 
 
 	minCost=calculateCost(path, matrix);
@@ -104,10 +131,15 @@ void SimulatedAnnealing::findPath(int **matrix, int ver)
 		for (int j = 0; j < L; j++)
 		{
 		
-			neigbourPermutation(path, neighbour);
-			currentCost = calculateCost(path, matrix);
-			neigCost = calculateCost(neighbour, matrix);
-			costDiff = currentCost - neigCost;
+			for (int k = 0; k < size - 1; k++)
+			{
+
+				neigbourPermutation(path, neighbour);
+				currentCost = calculateCost(path, matrix);
+				neigCost = calculateCost(neighbour, matrix);
+				costDiff = currentCost - neigCost;
+
+			}
 
 			//ustawianie minimalnego kosztu na wypadek wyjscia z minimum lokalnego
 			if (neigCost < minCost)
@@ -171,4 +203,42 @@ void SimulatedAnnealing::shuffle(int* arr)
 int SimulatedAnnealing::getCost()
 {
 	return cost;
+}
+
+void SimulatedAnnealing::setL(int l)
+{
+	
+	L = l;
+}
+void SimulatedAnnealing::setT(int t)
+{
+	
+	T0 = t;
+}
+void SimulatedAnnealing::setAlpha(float a)
+{
+	
+	ALPHA = a;
+}
+int SimulatedAnnealing::getL()
+{
+	return L;
+}
+int SimulatedAnnealing::getT0()
+{
+	return T0;
+}
+float SimulatedAnnealing::getAlpha()
+{
+	return ALPHA;
+}
+void SimulatedAnnealing::displayParametrs()
+{
+	std::cout << "\n(1)wykonaj\n";
+	std::cout << "(2)dlugosc epoki L:        "<< L << std::endl;
+	std::cout << "(3)Temperatura poczatkowa: "<< T0 << std::endl;
+	std::cout << "(4)wspolczynnik alpha:     "<< ALPHA << std::endl;
+	
+
+
 }
