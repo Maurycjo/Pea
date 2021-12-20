@@ -72,13 +72,68 @@ void Reader::reading(SimulatedAnnealing& sa)
 {
 	file.open("SAReading.txt");
 
-	for (int i = 10; i < 45; i += 5)
+	for (int i = 8; i <= 40; i += 2)
 	{
 		file << i << " wierzcholkow" << endl;
 		for (int j = 0; j < 10; j++)
 		{
 			matrix.directedGraph(i);
 			start = read_QPC();
+			sa.setStrartParametrs(matrix.getVertex(), matrix.array);
+			sa.findPath(matrix.array);
+			elapsed = read_QPC() - start;
+
+			//file << fixed << setprecision(10) << (float)elapsed / frequency << endl;
+
+			//file << fixed << setprecision(0) << (1000000.0 * elapsed) / frequency << endl;us
+			//fiel<< fixed << setprecision(3) << (float)elapsed / frequency << endl; ms
+			//file<< setprecision(3) << (1000.0 * elapsed) / frequency << endl; ms 
+			file << fixed << setprecision(5) << (float)elapsed / frequency << endl;
+			//cout << "Time [ms] =" << setprecision(0) << (1000.0 * elapsed) / frequency << endl;
+			//cout << "Time [us] = " << setprecision(0) << (1000000.0 * elapsed) /frequency << endl;
+		}
+	}
+	file.close();
+}
+void Reader::compare(BranchNBound& bnb, SimulatedAnnealing& sa)
+{
+	file.open("bnbKoszt.txt");
+	file2.open("saKoszt.txt");
+
+	for (int i = 6; i < 20; i++)
+	{
+		file << i << " wierzcholkow" << endl;
+		file2 << i << " wierzcholkow" << endl;
+		for (int j = 0; j < 10; j++)
+		{
+		matrix.directedGraph(i);
+
+		bnb.findPath(matrix.array, matrix.getVertex());
+		file << bnb.getCost() << endl;
+		sa.setStrartParametrs(matrix.getVertex(), matrix.array);
+		sa.findPath(matrix.array);
+		file2 << sa.getCost() << endl;
+		}
+	}
+
+	file.close();
+	file2.close();
+}
+
+void Reader::readingWithTemperature(SimulatedAnnealing& sa)
+{
+
+	file.open("SA_Temperature.txt");
+	for (int i = 500; i <= 5000; i +=500 )
+	{
+		file << i << " temperatura" << endl;
+		for (int j = 0; j < 100; j++)
+		{
+		matrix.directedGraph(15);
+			
+			start = read_QPC();
+			sa.setStrartParametrs(matrix.getVertex(), matrix.array);
+			sa.setT(i);
 			sa.findPath(matrix.array);
 			elapsed = read_QPC() - start;
 
@@ -94,30 +149,6 @@ void Reader::reading(SimulatedAnnealing& sa)
 	}
 	file.close();
 
-
-}
-void Reader::compare(BranchNBound& bnb, SimulatedAnnealing& sa)
-{
-	file.open("bnbKoszt.txt");
-	file2.open("saKoszt.txt");
-
-	for (int i = 6; i < 10; i++)
-	{
-		file << i << " wierzcholkow" << endl;
-		file2 << i << " wierzcholkow" << endl;
-		for (int j = 0; j < 10; j++)
-		{
-		matrix.directedGraph(i);
-
-		bnb.findPath(matrix.array, matrix.getVertex());
-		file << bnb.getCost() << endl;
-		sa.findPath(matrix.array);
-		file2 << sa.getCost() << endl;
-		}
-	}
-
-	file.close();
-	file2.close();
 
 
 }

@@ -26,6 +26,7 @@ public:
 	void reading(BranchNBound& bnb);
 	void reading(SimulatedAnnealing &sa);
 	void compare(BranchNBound& bnb, SimulatedAnnealing& sa);
+	void readingWithTemperature(SimulatedAnnealing& sa);
 
 
 

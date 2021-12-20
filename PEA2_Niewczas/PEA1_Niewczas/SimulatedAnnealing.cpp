@@ -119,7 +119,6 @@ void SimulatedAnnealing::findPath(int **matrix)
 
 
 	minCost=calculateCost(path, matrix);
-	
 
 	//temp=calculateTemp(minCost, ALPHA); 
 	temp = T0; //ustawienie poczatkowej temperatury
@@ -131,24 +130,19 @@ void SimulatedAnnealing::findPath(int **matrix)
 		for (int j = 0; j < L; j++)
 		{
 		
-			for (int k = 0; k < size - 1; k++)
-			{
-
 				neigbourPermutation(path, neighbour);
 				currentCost = calculateCost(path, matrix);
 				neigCost = calculateCost(neighbour, matrix);
-				costDiff = currentCost - neigCost;
+				costDiff = neigCost-currentCost;
 
-			}
-
+				
+				
 			//ustawianie minimalnego kosztu na wypadek wyjscia z minimum lokalnego
 			if (neigCost < minCost)
 			{
 				minCost = neigCost;
 				copy(neighbour, minPath);
-				//std::cout << "minCost: " << minCost << "\n";
 			}
-
 			if (costDiff < 0)
 			{
 				currentCost = neigCost;
@@ -170,7 +164,6 @@ void SimulatedAnnealing::findPath(int **matrix)
 		//std::cout << "nowaEpoka: " << i << "\n";
 		temp = reduceTempGeo(temp, ALPHA);
 		//std::cout << temp << "\n";
-		
 
 	}
 	//displaySolution();
@@ -200,11 +193,12 @@ void SimulatedAnnealing::shuffle(int* arr)
 	}
 }
 
+
+
 int SimulatedAnnealing::getCost()
 {
 	return cost;
 }
-
 void SimulatedAnnealing::setL(int l)
 {
 	
