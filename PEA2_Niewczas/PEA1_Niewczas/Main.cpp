@@ -48,13 +48,13 @@ int main()
 				system("cls");
 				choseMat(matrix);
 				break;
-			/*
 			case 3:
-				r.compare(bnb, sa);
+				r.readingWithTemperature(sa);
 				
 				cout << "koniec pomiarow" << endl;
 
 				return 0;
+			/*
 			*/
 			case 0:
 				return 0;
