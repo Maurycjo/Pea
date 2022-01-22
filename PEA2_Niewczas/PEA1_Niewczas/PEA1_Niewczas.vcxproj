@@ -143,6 +143,7 @@
     <ClCompile Include="BinaryHeap.cpp" />
     <ClCompile Include="BranchNBound.cpp" />
     <ClCompile Include="BruteForce.cpp" />
+    <ClCompile Include="GA.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Reader.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="BinaryHeap.h" />
     <ClInclude Include="BranchNBound.h" />
     <ClInclude Include="BruteForce.h" />
+    <ClInclude Include="GA.h" />
     <ClInclude Include="RandomGenerator.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="menu.h" />

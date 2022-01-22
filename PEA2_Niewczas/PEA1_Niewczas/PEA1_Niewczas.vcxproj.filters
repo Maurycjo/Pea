@@ -36,6 +36,9 @@
     <ClCompile Include="Reader.cpp">
       <Filter>Pliki nagłówkowe</Filter>
     </ClCompile>
+    <ClCompile Include="GA.cpp">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix.h">
@@ -60,6 +63,9 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="RandomGenerator.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="GA.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,6 +6,7 @@
 #include "BranchNBound.h"
 #include "Reader.h"
 #include "SimulatedAnnealing.h"
+#include "GA.h"
 
 using namespace std;
 
@@ -22,6 +23,7 @@ int main()
 	int menu, saMenu, temp;
 	float temp2;
 	bool ifRead;
+	GA ga;
 	//ofstream times;
 
 
@@ -48,13 +50,13 @@ int main()
 				system("cls");
 				choseMat(matrix);
 				break;
+			/*
 			case 3:
 				r.readingWithTemperature(sa);
 				
 				cout << "koniec pomiarow" << endl;
 
 				return 0;
-			/*
 			*/
 			case 0:
 				return 0;
@@ -134,15 +136,19 @@ int main()
 
 						break;
 				case 4:
+					ga.findChromosome(matrix.array, matrix.getVertex());
+					ga.displaySolution();
+					break;
+				case 5:
 					system("cls");
 					algorytmList();
 					break;
 					
 					break;
-				case 5:
+				case 6:
 					matrix.display();
 					break;
-				case 6:
+				case 7:
 					system("cls");
 					algorytmList();
 					break;
@@ -153,7 +159,7 @@ int main()
 					break;
 				}
 
-			} while (menu != 4);
+			} while (menu != 5);
 		
 	}
 	return 0;
