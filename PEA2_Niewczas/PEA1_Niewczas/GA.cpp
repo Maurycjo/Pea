@@ -59,7 +59,7 @@ void GA::copy(int* src, int* des)
 
 
 //parA, parB- rodzice, child- potomek
-void GA::crossOver(int* parA, int* parB, int* child)
+void GA::crossover(int* parA, int* parB, int* child)
 {
 	int* temp = new int[size];
 	int* freq = new int[size];
@@ -89,6 +89,57 @@ void GA::crossOver(int* parA, int* parB, int* child)
 	delete[]temp;
 	delete[]freq;
 }
+void GA::orderCrossover(int* parA, int* parB, int* child)
+{
+	int* freq = new int[size];
+	for (int i = 0; i < size; i++)
+	{
+		freq[i] = 0;
+	}
+
+	int randA, randB;
+	randA = g.generateRandomInt(1, size - 2);
+	randB = g.generateRandomInt(randA+1, size - 1);
+	//std::cout << "A- " << randA << "\n";
+	//std::cout << "B- " << randB << "\n";
+
+	for (int i = randA; i <= randB; i++)
+	{
+		child[i] = parA[i];
+		freq[parA[i]] = 1;
+	}
+	
+	int bIndeks = 0;
+	for (int i = 0; i < randA; i++)
+	{
+		//std::cout << i << " ";
+		if (freq[parB[bIndeks]] == 0)
+		{
+			child[i] = parB[bIndeks];
+			freq[parB[bIndeks]] = 1;
+		}
+		else
+			i--;
+			bIndeks++;
+	}
+
+	for (int i = randB + 1; i < size; i++)
+	{
+		if (freq[parB[bIndeks]] == 0)
+		{
+			child[i] = parB[bIndeks];
+			freq[parB[bIndeks]] = 1;
+		}
+		else
+			i--;
+			bIndeks++;
+	}
+
+	delete[]freq;
+}
+
+
+
 void GA::swap(int* src)
 {
 	int temp;
@@ -199,9 +250,11 @@ void GA::findChromosome(int **array, int vertex)
 	int rand;
 	
 
-	
+	int ilekrzyz = 0;
+	int ilemut = 0;
+	int ileminuw = 1;
 
-	int L = 100;
+	int L = 10;
 	
 	for (int h = 0; h < L; h++)
 	{
@@ -209,11 +262,11 @@ void GA::findChromosome(int **array, int vertex)
 		for(int numberOfChilds=0;numberOfChilds<population; numberOfChilds++)
 			{
 			//wybor rodzica A
-			//std::cout << sumOfWeight << "\n";
 			randWeight = g.generateRandomInt(0, sumOfWeight);
 
 			for (int i = 0; i < population; i++)
 			{
+			std::cout << sumOfWeight << "\n";
 				currentWeight += weightArray[i];
 				if (currentWeight >= randWeight)
 				{
@@ -236,10 +289,12 @@ void GA::findChromosome(int **array, int vertex)
 
 			}
 			//robienie krzyzowek lub kopiowanie rodzica
+			
 
 			if (g.generateRandomInt(0, 100)<=crossOverPercent)
 			{
-				crossOver(populationArray[parentA], populationArray[parentB], child);
+				ilekrzyz++;
+				orderCrossover(populationArray[parentA], populationArray[parentB], child);
 				copy(child, generationArray[numberOfChilds]);
 			
 
@@ -261,9 +316,9 @@ void GA::findChromosome(int **array, int vertex)
 		//tworzenie mutacji
 		for (int i = 0; i < population; i++)
 		{
-			
 			if (g.generateRandomInt(0, 100) <= mutationPercent)
 			{
+			ilemut++;
 				swap(generationArray[i]);
 
 			}
@@ -271,8 +326,6 @@ void GA::findChromosome(int **array, int vertex)
 
 		
 		swap2DArrays(populationArray, generationArray);
-
-
 
 
 		for (int i = 0; i < population; i++)
@@ -283,6 +336,7 @@ void GA::findChromosome(int **array, int vertex)
 			{
 				copy(populationArray[i], path);
 				minCost = costOfChromosome[i];
+				ileminuw++;
 			}
 		}
 		costOfPopulation = calculateAllChromosomes(populationArray, array);
@@ -294,6 +348,7 @@ void GA::findChromosome(int **array, int vertex)
 
 	path[size] = 0;
 	cost = minCost;
+	std::cout << "***\nkrzyzowek: " << ilekrzyz << "\nmutacji: " << ilemut << "\nminimalnych zamian: " << ileminuw << "\n";
 
 	
 	for (int i = 0; i < population; i++)
