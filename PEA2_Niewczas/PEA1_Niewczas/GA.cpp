@@ -15,7 +15,6 @@ void GA::shuffle(int* arr)
 		arr[k] = temp;
 	}
 }
-
 void GA::init2Darray(int **array)
 {
 	if (size > 0)
@@ -27,7 +26,6 @@ void GA::init2Darray(int **array)
 		}
 	}
 }
-
 int GA::calculateCost(int* perm, int** mat)
 {
 	int cost = 0;
@@ -48,7 +46,6 @@ int GA::calculateAllChromosomes(int **populationArray, int **mat)
 	}
 	return cost;
 }
-
 void GA::copy(int* src, int* des)
 {
 	for (int i = 0; i < size; i++)
@@ -56,8 +53,6 @@ void GA::copy(int* src, int* des)
 		des[i] = src[i];
 	}
 }
-
-
 //parA, parB- rodzice, child- potomek
 void GA::crossover(int* parA, int* parB, int* child)
 {
@@ -137,9 +132,6 @@ void GA::orderCrossover(int* parA, int* parB, int* child)
 
 	delete[]freq;
 }
-
-
-
 void GA::swap(int* src)
 {
 	int temp;
@@ -153,7 +145,6 @@ void GA::swap(int* src)
 	src[ind1] = src[ind2];
 	src[ind2] = temp;
 }
-
 void GA::calculateWeight(int* costOfChromosome,int costOfAllChromosomes, int* weightArray)
 {
 	int weight = 0;
@@ -163,6 +154,15 @@ void GA::calculateWeight(int* costOfChromosome,int costOfAllChromosomes, int* we
 		weightArray[i] = costOfAllChromosomes - costOfChromosome[i];
 	}
 	
+	/*
+	std::cout << "calculate weight\n";
+	for (int i = 0; i < population; i++)
+	{
+		std::cout << weightArray[i] << std::endl;
+	}
+	*/
+	
+
 }
 int GA::calculateAllWeights(int* weightArray)
 {
@@ -198,7 +198,7 @@ void GA::findChromosome(int **array, int vertex)
 	path = new int[size + 1];							//minimalna sciezka
 	int minCost;
 	int currentCost;
-	int sumOfWeight;
+	long int sumOfWeight;
 
 	int costOfPopulation= 0;							//koszt calej populacji
 	//int numberOfChilds = 0;
@@ -209,7 +209,7 @@ void GA::findChromosome(int **array, int vertex)
 	int** populationArray;
 	int** generationArray;
 	int* child = new int[size];
-
+	int ciner;
 	//int numberOfCrossOver = (population * crossOverPercent)/100;
 	//int numberOfMutation = (population * mutationPercent)/100;
 
@@ -243,8 +243,11 @@ void GA::findChromosome(int **array, int vertex)
 			}
 	}
 	costOfPopulation = calculateAllChromosomes(populationArray, array);
+	//obliczanie wagi
 	calculateWeight(costOfChromosome, costOfPopulation, weightArray);
 	sumOfWeight = calculateAllWeights(weightArray);
+	//std::cout << "sumOfWeight: " << sumOfWeight<<"\n";
+	//std::cin >> ciner;
 	int randWeight;
 	int currentWeight = 0;
 	int rand;
@@ -261,12 +264,14 @@ void GA::findChromosome(int **array, int vertex)
 
 		for(int numberOfChilds=0;numberOfChilds<population; numberOfChilds++)
 			{
+
+			currentWeight = 0;
 			//wybor rodzica A
+			//std::cout << sumOfWeight << "\n";
 			randWeight = g.generateRandomInt(0, sumOfWeight);
 
 			for (int i = 0; i < population; i++)
 			{
-			std::cout << sumOfWeight << "\n";
 				currentWeight += weightArray[i];
 				if (currentWeight >= randWeight)
 				{
@@ -288,9 +293,9 @@ void GA::findChromosome(int **array, int vertex)
 				}
 
 			}
-			//robienie krzyzowek lub kopiowanie rodzica
 			
 
+			//robienie krzyzowek lub kopiowanie rodzica
 			if (g.generateRandomInt(0, 100)<=crossOverPercent)
 			{
 				ilekrzyz++;
@@ -309,11 +314,12 @@ void GA::findChromosome(int **array, int vertex)
 					copy(populationArray[parentA], generationArray[numberOfChilds]);
 
 			}
-			currentWeight = 0;
+			
 		}
 
 
 		//tworzenie mutacji
+		
 		for (int i = 0; i < population; i++)
 		{
 			if (g.generateRandomInt(0, 100) <= mutationPercent)
@@ -323,8 +329,8 @@ void GA::findChromosome(int **array, int vertex)
 
 			}
 		}
-
 		
+		//std::swap(populationArray, generationArray);
 		swap2DArrays(populationArray, generationArray);
 
 
@@ -359,9 +365,9 @@ void GA::findChromosome(int **array, int vertex)
 
 	delete[] child;
 	delete[] weightArray;
+	delete[] costOfChromosome;
 	delete[] populationArray;
 	delete[] generationArray;
-	delete[] costOfChromosome;
 
 }
 void GA::displaySolution()
