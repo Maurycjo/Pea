@@ -149,6 +149,156 @@ void Reader::readingWithTemperature(SimulatedAnnealing& sa)
 	}
 	file.close();
 
+}
+void Reader::readingWithPopulation(GA& ga, BranchNBound& bnb)
+{
+	/*
+	file.open("br17_wyniki.txt");
+	bool l = true;
+	matrix.inputFile(l);
+	*/
+	ga.setAllParametrs(100, 70, 5, 10000);
+
+	file.open("wynikiGA.txt");
+	file3.open("wynikibnbdoga.txt");
+
+
+	for (int k = 10; k <= 20; k++)
+	{
+		matrix.directedGraph(k);
+		ga.setSize(matrix.getVertex());
+		bnb.findPath(matrix.array, matrix.getVertex());
+		file3 << "vertex: " << matrix.getVertex() << endl;
+		file3 << bnb.getCost();
+
+		
+
+		ga.setPopulation(100);
+
+		file << "population 100, VERTEX: " <<matrix.getVertex()<<endl;
+		for (int i = 0; i < 10; i++)
+		{
+			ga.findChromosome(matrix.array);
+			file << ga.getCost() << endl;
+			
+		}
+
+		ga.setPopulation(1000);
+
+		file << "population 1000, VERTEX: " << matrix.getVertex() << endl;
+		for (int i = 0; i < 10; i++)
+		{
+			ga.findChromosome(matrix.array);
+			file << ga.getCost() << endl;
+		}
+		ga.setPopulation(5000);
+
+		file << "population 5000, VERTEX: " << matrix.getVertex() << endl;
+		for (int i = 0; i < 10; i++)
+		{
+			ga.findChromosome(matrix.array);
+			file << ga.getCost() << endl;
+		}
+		ga.setPopulation(10000);
+
+		file << "population 10000, VERTEX: " << matrix.getVertex() << endl;
+		for (int i = 0; i < 10; i++)
+		{
+			ga.findChromosome(matrix.array);
+			file << ga.getCost() << endl;
+		}
+	}
+
+	file.close();
+	file3.close();
+
+}
+void Reader::readingWithCrossover(GA& ga)
+{
+	ga.setAllParametrs(1000, 40, 5, 10000);
+
+	file.open("ftv47_wyniki_krzyzowania.txt");
+	bool l = true;
+	matrix.inputFile(l);
+	ga.setSize(matrix.getVertex());
+
+
+	ga.setCrossoverPercent(20);
+	file << "krzyzowanie: " << ga.getCrossoverPercent() << endl;
+	for (int i = 0; i < 10; i++)
+	{
+		ga.findChromosome(matrix.array);
+		file << ga.getCost() << endl;
+
+	}
+
+	ga.setCrossoverPercent(40);
+	file << "krzyzowanie: " << ga.getCrossoverPercent() << endl;
+	for (int i = 0; i < 10; i++)
+	{
+		ga.findChromosome(matrix.array);
+		file << ga.getCost() << endl;
+
+	}
+	ga.setCrossoverPercent(60);
+	file << "krzyzowanie: " << ga.getCrossoverPercent() << endl;
+	for (int i = 0; i < 10; i++)
+	{
+		ga.findChromosome(matrix.array);
+		file << ga.getCost() << endl;
+	}
+	ga.setCrossoverPercent(80);
+	file << "krzyzowanie: " << ga.getCrossoverPercent() << endl;
+	for (int i = 0; i < 10; i++)
+	{
+		ga.findChromosome(matrix.array);
+		file << ga.getCost() << endl;
+	}
+
+}
+
+void Reader::readingWithMutation(GA& ga)
+{
+	ga.setAllParametrs(1000, 40, 5, 10000);
+
+	file.open("mutacja.txt");
+	bool l = true;
+	matrix.inputFile(l);
+	ga.setSize(matrix.getVertex());
+
+
+	ga.setMutationPercent(1);
+	file << "mutacja: " << ga.getMutationPercent() << endl;
+	for (int i = 0; i < 10; i++)
+	{
+		ga.findChromosome(matrix.array);
+		file << ga.getCost() << endl;
+
+	}
+
+	ga.setMutationPercent(5);
+	file << "mutacja: " << ga.getMutationPercent() << endl;
+	for (int i = 0; i < 10; i++)
+	{
+		ga.findChromosome(matrix.array);
+		file << ga.getCost() << endl;
+
+	}
+	ga.setMutationPercent(10);
+	file << "mutacja: " << ga.getMutationPercent() << endl;
+	for (int i = 0; i < 10; i++)
+	{
+		ga.findChromosome(matrix.array);
+		file << ga.getCost() << endl;
+	}
+	ga.setMutationPercent(20);
+	file << "mutacja: " << ga.getMutationPercent() << endl;
+	for (int i = 0; i < 10; i++)
+	{
+		ga.findChromosome(matrix.array);
+		file << ga.getCost() << endl;
+	}
+
 
 
 }

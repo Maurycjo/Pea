@@ -24,7 +24,7 @@
     <ProjectGuid>{c083406f-d67f-45c5-b80e-ce2b6b93e9cd}</ProjectGuid>
     <RootNamespace>PEA1Niewczas</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Pea2_Niewczas</ProjectName>
+    <ProjectName>Pea_Niewczas</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

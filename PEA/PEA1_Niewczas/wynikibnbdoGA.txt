@@ -1,0 +1,19 @@
+vertex: 10
+126
+vertex: 11
+163
+vertex: 12
+258
+vertex: 13
+223
+vertex: 14
+140
+vertex: 15
+133
+vertex: 16
+154
+vertex: 17
+163
+vertex: 18
+150
+vertex: 19

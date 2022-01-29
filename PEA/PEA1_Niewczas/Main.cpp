@@ -20,7 +20,7 @@ int main()
 	SimulatedAnnealing sa;
 	Matrix matrix;
 	Reader r;
-	int menu, saMenu, temp;
+	int menu, saMenu, temp, gamenu;
 	float temp2;
 	bool ifRead;
 	GA ga;
@@ -52,7 +52,8 @@ int main()
 				break;
 			/*
 			case 3:
-				r.readingWithTemperature(sa);
+				//pomiary
+				r.readingWithMutation(ga);
 				
 				cout << "koniec pomiarow" << endl;
 
@@ -136,8 +137,21 @@ int main()
 
 						break;
 				case 4:
-					ga.findChromosome(matrix.array, matrix.getVertex());
+					ga.setSize(matrix.getVertex());
+					
+					ga.displayParametrs();
+					do
+					{
+						cout << "wybierz: ";
+						cin >> gamenu;
+						ga.changeParametrs(gamenu);
+						system("cls");
+						ga.displayParametrs();
+					} while (gamenu != 1);
+					
+					ga.findChromosome(matrix.array);
 					ga.displaySolution();
+					algorytmList();
 					break;
 				case 5:
 					system("cls");
